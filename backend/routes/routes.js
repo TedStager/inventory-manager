@@ -1,23 +1,25 @@
 const express = require('express');
-const Model = require('../model/model');
 
 const router = express.Router();
 module.exports = router;
 
-// methods
+const User = require('../models/user');
+const Item = require('../models/item');
 
-// POST to db
-router.post('/post', async (req, res) => {
+// Add user
+router.post('/users', async (req, res) => {
+	console.log("Request for new user:");
 	console.log(req.body);
 
-	const data = new Model({
-		name: req.body.name,
-		age: req.body.age,
+	const newUser = new User({
+		username: req.body.username,
+		businessName: req.body.businessName,
+		password: req.body.password,
 	});
 
 	try {
-		const dataToSave = await data.save();
-		res.status(200).json(dataToSave);
+		const saveResponse = await newUser.save();
+		res.status(200).json(saveResponse);
 	}
 
 	catch (error) {
@@ -25,22 +27,23 @@ router.post('/post', async (req, res) => {
 	}
 });
 
-// get all db
-router.get('/getAll', (req, res) => {
-	res.send('Get all db data');
-});
+// Add item
+router.post('/items', async (req, res) => {
+	console.log("Request for new item:");
+	console.log(req.body);
 
-// get by ID
-router.get('/getOne/:id', (req, res) => {
-	res.send(req.params.id);
-});
+	const newItem = new Item({
+		name: req.body.name,
+		quantity: req.body.quantity,
+		inStock: (req.body.quantity > 0) ? true : false
+	});
 
-// update by ID
-router.patch('/update/:id', (req, res) => {
-	res.send('Update by ID');
-});
+	try {
+		const saveResponse = await newItem.save();
+		res.status(200).json(saveResponse);
+	}
 
-// delete by ID
-router.delete('/delete/:id', (req, res) => {
-	res.send('Delete by ID');
+	catch (error) {
+		res.status(400).json({message: error.message});
+	}
 });
