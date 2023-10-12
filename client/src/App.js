@@ -33,7 +33,12 @@ function App() {
   const [saleDialogOpen, setSaleDialog] = useState(false);
   const [saleItem, setSaleItem] = useState(null);
 
-  const handleSaleOpen = (item) => { setSaleDialog(true); setSaleItem(item); }
+  const handleSaleOpen = (item, quantity) => { 
+    if (quantity > 0) {
+      setSaleDialog(true); 
+      setSaleItem(item); 
+    }
+  }
   const handleSaleClose = () => { setSaleDialog(false); }
 
   const [restockDialogOpen, setRestockDialog] = useState(false);
@@ -62,7 +67,7 @@ function App() {
       </Typography>
 
 
-      <Box sx={{ display: "flex", flexDirection: "column"}}>
+      <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center"}}>
 
         {itemList.map((item) => (
           <Paper 
@@ -75,12 +80,13 @@ function App() {
             </Typography>
 
             <Typography variant="h6" sx={{ px: 1, width: 100, textAlign: "center" }}>
-              {item.quantity}
+              x{item.quantity}
             </Typography>
 
             <Box> {/* Group the Buttons together */}
-              <Button variant="contained" sx={{ mx: 1 }} 
-                      onClick={() => handleSaleOpen(item.name)} >
+              <Button variant="contained" 
+               sx={{ mx: 1, bgcolor: item.quantity > 0 ? "primary.main" : "red",  "&:hover": { bgcolor: item.quantity > 0 ? "primary.dark" : "#D00000"} }} 
+                      onClick={() => handleSaleOpen(item.name, item.quantity)} >
                 Sale
               </Button>
 
