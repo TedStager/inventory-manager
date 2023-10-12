@@ -30,9 +30,9 @@ router.post('/items', async (req, res) => {
 // Get all items (by user ID)
 router.get('/items', async (req, res) => {
 	console.log("Request for all items:");
-	console.log(req.body);
+	console.log(req.headers);
 
-	const currentUser = req.body.userID;
+	const currentUser = req.headers.userid;
 
 	try {
 		const items = await Item.find({userID: currentUser}).exec();
