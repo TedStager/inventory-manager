@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -10,25 +10,14 @@ import Button from '@mui/material/Button';
 import SaleDialog from './components/SaleDialog';
 import RestockDialog from './components/RestockDialog';
 
-const itemList = [
-    {
-      name: "Bananas",
-      quantity: 14,
-      inStock: true
-    },
-    {
-      name: "Oranges",
-      quantity: 4,
-      inStock: true
-    },
-    {
-      name: "Grapes",
-      quantity: 0,
-      inStock: false
-    },
-  ];
+import getItemList from './api/ItemList'; // NOTE: this returns a promise
 
 function App() {
+
+  const [itemList, updateItemList] = useState([]);
+  useEffect(() => { // init fetch
+    getItemList().then((list) => updateItemList(list));
+  }, []);
 
   const [saleDialogOpen, setSaleDialog] = useState(false);
   const [saleItem, setSaleItem] = useState(null);
@@ -75,7 +64,7 @@ function App() {
             sx={{ py: 1, my: 0.5, display: "flex", justifyContent: "space-between" }}
           >
 
-            <Typography variant="h6" sx={{ px: 1, width: 200, textAlign: "center" }}>
+            <Typography variant="h6" sx={{ px: 8, width: 150, textAlign: "left" }}>
               {item.name}
             </Typography>
 
