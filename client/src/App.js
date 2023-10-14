@@ -65,7 +65,7 @@ function App() {
     <Container>
 
       <Box sx={{ display: 'flex', flexDirection: 'row',
-                       justifyContent: 'space-between' }}>
+                       justifyContent: 'space-between', py: 2 }}>
 
         <Typography variant="h6">
           {currentUser == "" ? "Not logged in" : "Logged in as: " + currentUser}
@@ -110,10 +110,10 @@ function App() {
         {itemList.map((item) => (
           <Paper 
             elevation={3} 
-            sx={{ py: 1, my: 0.5, display: "flex", justifyContent: "space-between" }}
+            sx={{ py: 1, my: 0.5, display: "flex", justifyContent: "space-between", bgcolor: '#eaeafb' }}
           >
 
-            <Typography variant="h6" sx={{ px: 8, width: 150, textAlign: "left" }}>
+            <Typography variant="h6" sx={{ px: 8, width: 250, textAlign: "left" }}>
               {item.name}
             </Typography>
 
