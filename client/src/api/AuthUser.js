@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:3000/api"; // change for deployment
+const BACKEND_URL = "https://inventory-manager.tedstager.com/api";
 
 async function authUser (userID, pass) {
 
