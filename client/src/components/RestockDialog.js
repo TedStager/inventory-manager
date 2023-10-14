@@ -24,7 +24,7 @@ const RestockDialog = (props) => {
 
 		changeQuant(props.itemID, quantRestock).then((res) => {
 			if (res.hasOwnProperty("_id")) {
-				alert("Sale successful!");
+				alert("Restock successful!");
 			}
 			else 
 				alert("Something went wrong.");
