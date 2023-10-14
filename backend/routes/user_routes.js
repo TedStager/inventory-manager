@@ -12,7 +12,8 @@ router.post('/users', async (req, res) => {
 
 	// make sure username isn't taken
 	const users = await User.find({username: req.body.username}).exec();
-	if (users.length != 0) {
+	console.log(users);
+	if (users.length > 0 && users[0].username == req.body.username) {
 		res.status(409).json({message: "Error: username already taken."});
 		return;
 	}
@@ -37,26 +38,33 @@ router.post('/users', async (req, res) => {
 // User login
 router.get('/users', async (req, res) => {
 	console.log("Request to authenticate user:");
-	console.log(req.body);
+	console.log(req.headers);
 
-	const login_username = req.body.username;
-	const login_pass = req.body.password;
+	const login_username = req.headers.userid;
+	const login_pass = req.headers.password;
 
-	// get user from db
-	const users = await User.find({username: login_username}).exec();
-	user = users[0]; // usernames should be unique
-	console.log(user);
+	try {
+		// get user from db
+		const users = await User.find({username: login_username}).exec();
+		user = users[0]; // usernames should be unique
+		console.log(user);
 
-	if (user.password === login_pass) {
-		res.status(200).json({
-			auth: true,
-			userID: user.id
-		});
+		if (user.password === login_pass) {
+			res.status(200).json({
+				auth: true,
+				userID: user.id
+			});
+		}
+		else {
+			res.status(401).json({
+				auth: false,
+				userID: null
+			});
+		}
 	}
-	else {
-		res.status(401).json({
-			auth: false,
-			userID: null
-		});
+	
+	catch (error) {
+		console.log(error);
+		res.status(500).json({message: error.message});
 	}
 });

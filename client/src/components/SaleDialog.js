@@ -68,7 +68,8 @@ const SaleDialog = (props) => {
 				<DialogActions>
 
 					<Button variant="contained" onClick={handleClose} 
-							sx={{ bgcolor: 'red' }}>
+							sx={{ bgcolor: 'red',
+								  '&:hover': { bgcolor: '#D00000' } }}>
 						Cancel
 					</Button>
 

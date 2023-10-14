@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 
 import SaleDialog from './components/SaleDialog';
 import RestockDialog from './components/RestockDialog';
+import LoginDialog from './components/LoginDialog';
 
 import getItemList from './api/ItemList'; // NOTE: this returns a promise
 
@@ -39,8 +40,29 @@ function App() {
   }
   const handleRestockClose = () => { setRestockDialog(false); }
 
+  const [loginDialogOpen, setLoginDialog] = useState(false);
+  const [[currentUser, currentUserID], setCurrentUser] = useState(["", ""]);
+  const handleLoginOpen = () => { setLoginDialog(true); }
+  const handleLoginClose = () => { setLoginDialog(false); }
+  const handleSignout = () => { setCurrentUser(["", ""]); }
+
   return (
     <Container>
+
+      <Box sx={{ display: 'flex', flexDirection: 'row',
+                       justifyContent: 'space-between' }}>
+
+        <Typography variant="h6">
+          {currentUser == "" ? "Not logged in" : "Logged in as: " + currentUser}
+        </Typography>
+
+
+        <Button variant="contained" 
+                onClick={currentUser == "" ? handleLoginOpen : handleSignout}>
+          {currentUser == "" ? "Login or Sign Up" : "Sign Out"}
+        </Button>
+      </Box>
+
       <Typography 
         variant="h1"
         sx={{ my: 4, textAlign: "center", color: "primary.main" }}
@@ -100,6 +122,11 @@ function App() {
         handleClose={handleRestockClose}
         open={restockDialogOpen}
         item={restockItem} />
+
+      <LoginDialog
+        handleClose={handleLoginClose}
+        open={loginDialogOpen}
+        setUser={setCurrentUser} />
 
     </Container>
   );
