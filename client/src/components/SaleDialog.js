@@ -14,10 +14,18 @@ import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
+import changeQuant from '../api/ChangeQuant';
+
 const SaleDialog = (props) => {
 
 	const handleSale = () => {
-		alert("You made a sale!");
+		changeQuant(props.itemID, quant).then((res) => {
+			if (res.hasOwnProperty("_id")) {
+				alert("Sale successful!");
+			}
+			else 
+				alert("Something went wrong.");
+		});
 
 		handleClose();
 	}
@@ -28,7 +36,11 @@ const SaleDialog = (props) => {
 	}
 
 	const [quant, setQuant] = useState(1);
-	const handleMore = () => { let newQuant = quant + 1; setQuant(newQuant); }
+	const handleMore = () => { 
+		let newQuant = quant + 1; 
+		if (newQuant <= props.quantInStock)
+			setQuant(newQuant); 
+	}
 	const handleLess = () => { 
 		let newQuant = quant - 1; 
 		if (newQuant > 0) setQuant(newQuant);
